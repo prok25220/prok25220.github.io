@@ -1,5 +1,444 @@
 <!doctype html>
-<meta charset="utf-8">
-<title> 나의 첫페이지</title>
-<h1> 안녕하세요 </h1>
-<p> Github pages로 만든 웹사이트 </p>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>프로그래밍 언어 소개</title>
+  <meta name="description" content="초보자를 위한 프로그래밍 언어 소개 홈페이지" />
+  <style>
+    :root{
+      --bg: #0b1220;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+      --text: #e9eefc;
+      --muted: rgba(233,238,252,.75);
+      --line: rgba(233,238,252,.14);
+      --accent: #7c9cff;
+      --accent2:#7cf0d6;
+      --shadow: 0 12px 30px rgba(0,0,0,.25);
+      --radius: 18px;
+    }
+    body.light{
+      --bg: #f6f7fb;
+      --card: rgba(0,0,0,.05);
+      --card2: rgba(0,0,0,.08);
+      --text: #0b1220;
+      --muted: rgba(11,18,32,.7);
+      --line: rgba(11,18,32,.12);
+      --accent: #325cff;
+      --accent2:#00a387;
+      --shadow: 0 10px 26px rgba(10,20,40,.14);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo",
+                   "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
+      background: radial-gradient(1200px 700px at 20% -10%, rgba(124,156,255,.25), transparent 55%),
+                  radial-gradient(1000px 600px at 90% 0%, rgba(124,240,214,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1100px; margin:0 auto; padding:24px}
+    .nav{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,0));
+      border-bottom: 1px solid var(--line);
+    }
+    body.light .nav{
+      background: linear-gradient(to bottom, rgba(246,247,251,.85), rgba(246,247,251,0));
+    }
+
+    .nav-inner{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      padding:14px 24px;
+      max-width:1100px; margin:0 auto;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:-.2px;
+    }
+    .logo{
+      width:38px; height:38px; border-radius:12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: var(--shadow);
+      display:grid; place-items:center;
+      font-weight:900; color:#0b1220;
+    }
+    body.light .logo{color:#f6f7fb}
+    .menu{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+      align-items:center;
+    }
+    .pill{
+      padding:8px 12px; border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:600;
+      font-size:14px;
+    }
+    body.light .pill{background: rgba(0,0,0,.04)}
+    .pill:hover{transform: translateY(-1px); transition:.15s}
+    .toggle{
+      cursor:pointer; user-select:none;
+      display:flex; align-items:center; gap:8px;
+    }
+
+    header.hero{
+      padding:30px 0 14px;
+    }
+    .hero-grid{
+      display:grid; gap:18px;
+      grid-template-columns: 1.2fr .8fr;
+      align-items:stretch;
+    }
+    @media (max-width: 880px){
+      .hero-grid{grid-template-columns: 1fr}
+      .menu{justify-content:flex-start}
+    }
+
+    .hero-card{
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, var(--card), transparent);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:22px;
+    }
+    .hero h1{
+      margin:0 0 10px;
+      font-size: clamp(26px, 3.2vw, 40px);
+      letter-spacing:-.6px;
+      line-height:1.15;
+    }
+    .hero p{margin:0 0 14px; color:var(--muted)}
+    .badges{display:flex; gap:10px; flex-wrap:wrap}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background: var(--card2);
+      border:1px solid var(--line);
+      font-weight:700;
+      font-size:13px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+
+    .quick{
+      display:grid; gap:12px;
+    }
+    .stat{
+      border:1px solid var(--line);
+      background: var(--card);
+      border-radius: var(--radius);
+      padding:14px 16px;
+    }
+    .stat .k{font-size:13px; color:var(--muted); margin-bottom:6px}
+    .stat .v{font-size:18px; font-weight:900; letter-spacing:-.3px}
+
+    main{padding:12px 0 40px}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .card{
+      grid-column: span 6;
+      border:1px solid var(--line);
+      background: var(--card);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: var(--shadow);
+      scroll-margin-top: 84px;
+    }
+    @media (max-width: 880px){ .card{grid-column: span 12;} }
+
+    .card-head{
+      display:flex; justify-content:space-between; gap:10px; align-items:flex-start;
+      margin-bottom:10px;
+    }
+    .lang{
+      display:flex; gap:10px; align-items:center;
+    }
+    .icon{
+      width:44px; height:44px; border-radius:14px;
+      background: linear-gradient(135deg, rgba(124,156,255,.28), rgba(124,240,214,.22));
+      border: 1px solid var(--line);
+      display:grid; place-items:center;
+      font-weight:900;
+    }
+    .card h2{
+      margin:0;
+      font-size:20px;
+      letter-spacing:-.3px;
+    }
+    .meta{font-size:13px; color:var(--muted); margin-top:2px}
+    .tag{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.15);
+      color:var(--text);
+      font-weight:800;
+      white-space:nowrap;
+    }
+    body.light .tag{background: rgba(0,0,0,.05)}
+
+    ul{
+      margin:10px 0 0;
+      padding-left:18px;
+      color:var(--muted);
+    }
+    code.inline{
+      padding:2px 6px;
+      border-radius:8px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      color:var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+    }
+    body.light code.inline{background: rgba(0,0,0,.05)}
+
+    .footer{
+      border-top:1px solid var(--line);
+      padding:22px 0 34px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .small-links{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
+    .small-links a{border:1px solid var(--line); padding:7px 10px; border-radius:999px}
+    .small-links a:hover{transform: translateY(-1px); transition:.15s}
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="logo">{} </div>
+        <div>
+          <div style="font-size:15px;">프로그래밍 언어 소개</div>
+          <div style="font-size:12px; color:var(--muted); margin-top:2px;">입문자를 위한 한 페이지 가이드</div>
+        </div>
+      </div>
+
+      <div class="menu">
+        <a class="pill" href="#python">Python</a>
+        <a class="pill" href="#c">C</a>
+        <a class="pill" href="#java">Java</a>
+        <a class="pill" href="#js">JavaScript</a>
+        <a class="pill" href="#cpp">C++</a>
+        <a class="pill" href="#scratch">Scratch</a>
+        <span class="pill toggle" id="themeBtn" title="다크/라이트 전환">🌓 <span>테마</span></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <header class="hero">
+      <div class="hero-grid">
+        <section class="hero-card">
+          <h1>어떤 언어부터 시작할까?</h1>
+          <p>
+            언어는 “목적”에 따라 고르면 훨씬 쉽습니다.
+            아래 카드에서 <b>특징 · 추천 대상 · 대표 활용 분야</b>를 빠르게 비교해 보세요.
+          </p>
+          <div class="badges">
+            <span class="badge"><span class="dot"></span> 웹 개발</span>
+            <span class="badge"><span class="dot"></span> 데이터/AI</span>
+            <span class="badge"><span class="dot"></span> 앱/백엔드</span>
+            <span class="badge"><span class="dot"></span> 알고리즘/대회</span>
+          </div>
+        </section>
+
+        <aside class="quick">
+          <div class="stat">
+            <div class="k">추천 기준</div>
+            <div class="v">목표 → 언어 → 작은 프로젝트</div>
+          </div>
+          <div class="stat">
+            <div class="k">학습 루틴 예시</div>
+            <div class="v">문법 30% + 문제풀이 40% + 만들기 30%</div>
+          </div>
+          <div class="stat">
+            <div class="k">오늘의 미션</div>
+            <div class="v">Hello World → 입력/출력 → 조건/반복</div>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+      <div class="grid">
+
+        <section class="card" id="python">
+          <div class="card-head">
+            <div class="lang">
+              <div class="icon">Py</div>
+              <div>
+                <h2>Python</h2>
+                <div class="meta">입문 친화 · 데이터/AI · 자동화</div>
+              </div>
+            </div>
+            <div class="tag">추천 1순위(입문)</div>
+          </div>
+          <p style="color:var(--muted); margin:0;">
+            문법이 간단하고 생산성이 높아, <b>처음 배우기</b>에도 좋고
+            <b>데이터 분석, 인공지능, 자동화</b>에 강합니다.
+          </p>
+          <ul>
+            <li>잘 맞는 분야: 데이터 분석, AI, 스크립트 자동화, 교육용 코딩</li>
+            <li>장점: 코드가 짧고 읽기 쉬움</li>
+            <li>예시 키워드: <code class="inline">pandas</code>, <code class="inline">numpy</code>, <code class="inline">fastapi</code></li>
+          </ul>
+        </section>
+
+        <section class="card" id="c">
+          <div class="card-head">
+            <div class="lang">
+              <div class="icon">C</div>
+              <div>
+                <h2>C</h2>
+                <div class="meta">컴퓨터 구조 이해 · 속도 · 시스템</div>
+              </div>
+            </div>
+            <div class="tag">기초 체력</div>
+          </div>
+          <p style="color:var(--muted); margin:0;">
+            메모리와 하드웨어에 가까워 <b>컴퓨터가 어떻게 동작하는지</b> 이해하는 데 유리합니다.
+          </p>
+          <ul>
+            <li>잘 맞는 분야: 임베디드, 운영체제, 시스템 프로그래밍</li>
+            <li>장점: 빠름, 기초 개념(포인터/메모리) 학습에 좋음</li>
+            <li>주의: 문법/에러가 처음엔 어렵게 느껴질 수 있음</li>
+          </ul>
+        </section>
+
+        <section class="card" id="java">
+          <div class="card-head">
+            <div class="lang">
+              <div class="icon">Jv</div>
+              <div>
+                <h2>Java</h2>
+                <div class="meta">안정적 · 객체지향 · 백엔드/업무</div>
+              </div>
+            </div>
+            <div class="tag">실무/서버</div>
+          </div>
+          <p style="color:var(--muted); margin:0;">
+            기업/공공에서 많이 쓰이며, 큰 규모의 프로그램을 <b>견고하게</b> 만들기 좋습니다.
+          </p>
+          <ul>
+            <li>잘 맞는 분야: 백엔드 서버, 안드로이드(기반), 엔터프라이즈</li>
+            <li>장점: 생태계 큼, 도구/자료 풍부</li>
+            <li>예시 키워드: <code class="inline">Spring</code>, <code class="inline">JVM</code></li>
+          </ul>
+        </section>
+
+        <section class="card" id="js">
+          <div class="card-head">
+            <div class="lang">
+              <div class="icon">JS</div>
+              <div>
+                <h2>JavaScript</h2>
+                <div class="meta">웹 필수 · 프론트 · 백엔드도 가능</div>
+              </div>
+            </div>
+            <div class="tag">웹 개발</div>
+          </div>
+          <p style="color:var(--muted); margin:0;">
+            브라우저에서 바로 실행되는 언어로, <b>웹 화면(프론트엔드)</b>의 핵심입니다.
+            요즘은 서버(Node.js)도 가능합니다.
+          </p>
+          <ul>
+            <li>잘 맞는 분야: 웹 프론트엔드, 웹 서버, 간단한 앱</li>
+            <li>장점: 결과를 바로 눈으로 확인 가능</li>
+            <li>예시 키워드: <code class="inline">React</code>, <code class="inline">Node.js</code></li>
+          </ul>
+        </section>
+
+        <section class="card" id="cpp">
+          <div class="card-head">
+            <div class="lang">
+              <div class="icon">C++</div>
+              <div>
+                <h2>C++</h2>
+                <div class="meta">고성능 · 게임 · 알고리즘 대회</div>
+              </div>
+            </div>
+            <div class="tag">성능/대회</div>
+          </div>
+          <p style="color:var(--muted); margin:0;">
+            빠른 성능과 강력한 기능으로 <b>게임/고성능 프로그램</b>, <b>알고리즘 대회</b>에서 많이 사용됩니다.
+          </p>
+          <ul>
+            <li>잘 맞는 분야: 게임 엔진, 고성능 처리, 알고리즘</li>
+            <li>장점: 성능, 표준 라이브러리(STL)</li>
+            <li>주의: 문법이 방대하고 디버깅 난이도↑</li>
+          </ul>
+        </section>
+
+        <section class="card" id="scratch">
+          <div class="card-head">
+            <div class="lang">
+              <div class="icon">🎯</div>
+              <div>
+                <h2>Scratch</h2>
+                <div class="meta">블록 코딩 · 논리/순서 학습 · 초등~중등</div>
+              </div>
+            </div>
+            <div class="tag">블록 코딩</div>
+          </div>
+          <p style="color:var(--muted); margin:0;">
+            블록을 끌어다 놓으며 프로그래밍의 핵심 개념(순서, 반복, 조건)을 자연스럽게 익힙니다.
+          </p>
+          <ul>
+            <li>잘 맞는 분야: 입문, 논리 사고 훈련, 간단한 게임 제작</li>
+            <li>장점: 문법 오류 스트레스가 적음</li>
+            <li>다음 단계: Python / JavaScript로 확장하기 좋음</li>
+          </ul>
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div><b style="color:var(--text);">다음에 넣으면 좋은 메뉴</b></div>
+      <div class="small-links">
+        <a href="#" onclick="alert('예: 언어별 Hello World 예제를 추가해 보세요!'); return false;">Hello World 예제</a>
+        <a href="#" onclick="alert('예: 난이도별 추천 문제 리스트를 넣어 보세요!'); return false;">추천 문제</a>
+        <a href="#" onclick="alert('예: HTML/CSS/JS로 만드는 미니 프로젝트 안내를 넣어 보세요!'); return false;">미니 프로젝트</a>
+      </div>
+      <div style="margin-top:12px;">
+        © <span id="year"></span> Programming Languages Intro. (단일 HTML 예시)
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // 연도 자동 표기
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // 테마 토글 (로컬 저장)
+    const key = "intro-theme";
+    const btn = document.getElementById("themeBtn");
+    const saved = localStorage.getItem(key);
+    if (saved === "light") document.body.classList.add("light");
+
+    btn.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      localStorage.setItem(key, document.body.classList.contains("light") ? "light" : "dark");
+    });
+  </script>
+</body>
+</html>
